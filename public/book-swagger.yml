@@ -1,0 +1,381 @@
+openapi: 3.0.0
+info:
+  title: Book
+  version: 1.0.0
+servers:
+  - url: https://thriftbook-1.onrender.com
+  - url: http://localhost:8000
+paths:
+  /user/register:
+    post:
+      tags:
+        - General
+      summary: Register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                fullName: John Doe
+                email: john.doe3@example.com
+                password: password123
+                role: admin
+                phoneNumber: "1234567890"
+                address:
+                  street: 123 Main St
+                  city: New York
+                  state: NY
+                  country: USA
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /user/login:
+    post:
+      tags:
+        - General
+      summary: Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: john.doe3@example.com
+                password: password123
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /book/create:
+    post:
+      tags:
+        - General
+      summary: UploadBook
+      requestBody:
+        content: {}
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: multipart/form-data
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /user/mybooks:
+    get:
+      tags:
+        - General
+      summary: Books Upload By Current User
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /category:
+    get:
+      tags:
+        - General
+      summary: category
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /book/all:
+    get:
+      tags:
+        - General
+      summary: Get All Bokks
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /user/current-user:
+    get:
+      tags:
+        - General
+      summary: Validate Auth Token
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /book/single/679c1cd2b714b8a208780c37:
+    get:
+      tags:
+        - General
+      summary: Get Single Book by Id
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /book/update/6791ef8e525eea0e0c0f69cf:
+    put:
+      tags:
+        - General
+      summary: Update A Book
+      requestBody:
+        content: {}
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: multipart/form-data
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /book/delete/6791ef8e525eea0e0c0f69cf:
+    delete:
+      tags:
+        - General
+      summary: Delete Book By Id
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /book/stats/trending-books:
+    get:
+      tags:
+        - General
+      summary: Trending Books
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /order/user:
+    get:
+      tags:
+        - General
+      summary: Get Order By Email
+      parameters:
+        - name: email
+          in: query
+          schema:
+            type: string
+          example: john.doe@example.com
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /access/total-revenue:
+    get:
+      tags:
+        - General
+      summary: Total Revenue
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /access/stats/total-users:
+    get:
+      tags:
+        - General
+      summary: Total Users
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /access/stats/total-books:
+    get:
+      tags:
+        - General
+      summary: Total Books
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /access/stats/total-books-by-category:
+    get:
+      tags:
+        - General
+      summary: Total Books By Category
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /payment/initiate:
+    post:
+      tags:
+        - General
+      summary: Make payment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: adediredayo@gmail.com
+                amount: "1000"
+                bookId: 65a7f8d3e3b1a40012f9a6c7
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /payment/webhook:
+    post:
+      tags:
+        - General
+      summary: Payment Webhook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                event: charge.success
+                data:
+                  id: 123456789
+                  amount: 500000
+                  currency: NGN
+                  status: success
+                  reference: abc123xyz
+                  customer:
+                    email: user@example.com
+                  metadata:
+                    bookId: 679c1cd2b714b8a208780c37
+                    userId: 67a330229eae54c870ff7edf
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /order/create:
+    post:
+      tags:
+        - General
+      summary: Create Print Orders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: John Doe
+                email: john.doe@example.com
+                address:
+                  city: New York
+                  country: USA
+                  state: NY
+                  zipcode: "10001"
+                phone: 1234567890
+                productId:
+                  - 678e24572f35f1b199a54303
+                  - 679c1c15b714b8a208780c2f
+                totalPrice: 30
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /user/stats/user-purchase-history:
+    get:
+      tags:
+        - General
+      summary: User Purchase History
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /access/users/679c1cd2b714b8a208780c37:
+    get:
+      tags:
+        - General
+      summary: Get All Users Who Purchased Specific Book
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /book/stats/total-purchased-books:
+    get:
+      tags:
+        - General
+      summary: Get Total Purchased Books
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /access/stats/average-order-value:
+    get:
+      tags:
+        - General
+      summary: Average Order Value
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /access/stats/monthly-sales:
+    get:
+      tags:
+        - General
+      summary: Total Monthly Sales
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /access/stats/most-purchased-books:
+    get:
+      tags:
+        - General
+      summary: Most Purchased Books
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /access/stats/top-genres-by-sales:
+    get:
+      tags:
+        - General
+      summary: Top Genres By Sales
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /access/stats/total-active-Users:
+    get:
+      tags:
+        - General
+      summary: Total Active Users
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}

@@ -1,0 +1,914 @@
+swagger: "2.0"
+info:
+  title: Jobify API
+  description: API for Jobify - A job management and application platform
+  version: 1.0.0
+host: jobify-web-api.onrender.com
+basePath: /api/v1
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+securityDefinitions:
+  bearerAuth:
+    type: apiKey
+    name: Authorization
+    in: header
+    description: Use the JWT token received after login
+paths:
+  /user/register:
+    post:
+      summary: Register a new user
+      description: Register a new user with name, email, username, and password.
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: John Doe
+                email:
+                  type: string
+                  example: johndoe@example.com
+                username:
+                  type: string
+                  example: johndoe
+                password:
+                  type: string
+                  example: password123
+                passwordConfirm:
+                  type: string
+                  example: password123
+      responses:
+        "201":
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                  message:
+                    type: string
+                    example: User registered successfully
+        "400":
+          description: Bad request (e.g., missing fields or passwords do not match)
+        "500":
+          description: Server error
+
+  /user/login:
+    post:
+      summary: Login a user
+      description: Login a user with email and password.
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: johndoe@example.com
+                password:
+                  type: string
+                  example: password123
+      responses:
+        "200":
+          description: User logged in successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: successful
+                  message:
+                    type: string
+                    example: User logged in successfully
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 64f1b2c7e4b0f5a3d4f5e6a7
+                      name:
+                        type: string
+                        example: John Doe
+                      email:
+                        type: string
+                        example: johndoe@example.com
+                      profilePicture:
+                        type: string
+                        example: https://example.com/profile.jpg
+                  token:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        "400":
+          description: Bad request (e.g., missing fields)
+        "401":
+          description: Invalid email or password
+        "500":
+          description: Server error
+
+  /user/logout:
+    post:
+      summary: Logout a user
+      description: Logout the currently authenticated user.
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: User logged out successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Logged out successfully
+        "401":
+          description: Unauthorized (e.g., no token provided)
+        "500":
+          description: Server error
+
+  /user/me:
+    get:
+      summary: Get current user profile
+      description: Retrieve the profile of the currently authenticated user.
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: User profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 64f1b2c7e4b0f5a3d4f5e6a7
+                      name:
+                        type: string
+                        example: John Doe
+                      email:
+                        type: string
+                        example: johndoe@example.com
+                      username:
+                        type: string
+                        example: johndoe
+                      profilePicture:
+                        type: string
+                        example: https://example.com/profile.jpg
+        "401":
+          description: Unauthorized (e.g., no token provided)
+        "500":
+          description: Server error
+
+  /user/me/update:
+    patch:
+      summary: Update current user profile
+      description: Update the profile of the currently authenticated user.
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: John Smith
+                email:
+                  type: string
+                  example: johnsmith@example.com
+      responses:
+        "200":
+          description: User profile updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            example: 64f1b2c7e4b0f5a3d4f5e6a7
+                          name:
+                            type: string
+                            example: John Smith
+                          email:
+                            type: string
+                            example: johnsmith@example.com
+                          username:
+                            type: string
+                            example: johndoe
+                          profilePicture:
+                            type: string
+                            example: https://example.com/profile.jpg
+        "400":
+          description: Bad request (e.g., invalid fields)
+        "401":
+          description: Unauthorized (e.g., no token provided)
+        "500":
+          description: Server error
+
+  /user/me/changePassword:
+    patch:
+      summary: Change current user password
+      description: Change the password of the currently authenticated user.
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                currentPassword:
+                  type: string
+                  example: password123
+                newPassword:
+                  type: string
+                  example: newpassword123
+                passwordConfirm:
+                  type: string
+                  example: newpassword123
+      responses:
+        "200":
+          description: Password updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Password updated successfully
+        "400":
+          description: Bad request (e.g., passwords do not match)
+        "401":
+          description: Unauthorized (e.g., no token provided)
+        "500":
+          description: Server error
+
+  /user/me/deleteAccount:
+    delete:
+      summary: Delete current user account
+      description: Delete the account of the currently authenticated user.
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      responses:
+        "204":
+          description: User account deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: User deleted successfully
+                  data:
+                    type: null
+        "401":
+          description: Unauthorized (e.g., no token provided)
+        "500":
+          description: Server error
+
+  /jobs:
+    get:
+      summary: Get all jobs
+      description: Retrieve a list of all available jobs.
+      tags:
+        - Jobs
+      responses:
+        "200":
+          description: List of jobs retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: successful
+                  results:
+                    type: integer
+                    example: 3
+                  jobs:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Job"
+        "404":
+          description: No jobs found
+        "500":
+          description: Server error
+
+    post:
+      summary: Create a new job
+      description: Create a new job posting.
+      tags:
+        - Jobs
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Job"
+      responses:
+        "201":
+          description: Job created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: successful
+                  data:
+                    $ref: "#/components/schemas/Job"
+        "400":
+          description: Bad request (e.g., missing required fields)
+        "401":
+          description: Unauthorized (e.g., no token provided)
+        "500":
+          description: Server error
+
+  /jobs/{id}:
+    get:
+      summary: Get a job by ID
+      description: Retrieve a specific job by its ID.
+      tags:
+        - Jobs
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the job to retrieve
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Job retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Job"
+        "404":
+          description: Job not found
+        "500":
+          description: Server error
+
+    patch:
+      summary: Update a job by ID
+      description: Update a specific job by its ID.
+      tags:
+        - Jobs
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the job to update
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Job"
+      responses:
+        "200":
+          description: Job updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Job"
+        "404":
+          description: Job not found
+        "500":
+          description: Server error
+
+    delete:
+      summary: Delete a job by ID
+      description: Delete a specific job by its ID.
+      tags:
+        - Jobs
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the job to delete
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Job deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: successful
+                  data:
+                    $ref: "#/components/schemas/Job"
+        "404":
+          description: Job not found
+        "500":
+          description: Server error
+
+  /jobs/apply:
+    post:
+      summary: Apply for a job
+      description: Apply for a specific job by uploading a resume and cover letter.
+      tags:
+        - Jobs
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                jobId:
+                  type: string
+                  example: 64f1b2c7e4b0f5a3d4f5e6a7
+                cv:
+                  type: string
+                  format: binary
+                coverLetter:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: Job application submitted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: successful
+                  message:
+                    type: string
+                    example: Job application Successful
+                  data:
+                    $ref: "#/components/schemas/JobApplication"
+        "400":
+          description: Bad request (e.g., missing resume)
+        "401":
+          description: Unauthorized (e.g., no token provided)
+        "500":
+          description: Server error
+
+  /jobs/categories:
+    get:
+      summary: Get job categories
+      description: Retrieve a list of all job categories.
+      tags:
+        - Jobs
+      responses:
+        "200":
+          description: Job categories retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: successful
+                  result:
+                    type: integer
+                    example: 5
+                  categories:
+                    type: array
+                    items:
+                      type: string
+                      example: IT
+        "500":
+          description: Server error
+
+  /jobs/featured:
+    get:
+      summary: Get featured jobs
+      description: Retrieve a list of featured jobs.
+      tags:
+        - Jobs
+      responses:
+        "200":
+          description: Featured jobs retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: successful
+                  result:
+                    type: integer
+                    example: 3
+                  featured:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Job"
+        "404":
+          description: No featured jobs found
+        "500":
+          description: Server error
+
+  /jobs/jobapplicants:
+    get:
+      summary: Get job applicants
+      description: Retrieve a list of applicants for a specific job.
+      tags:
+        - Jobs
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Job applicants retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: successful
+                  result:
+                    type: integer
+                    example: 2
+                  applications:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/JobApplication"
+        "404":
+          description: No applicants found
+        "500":
+          description: Server error
+
+  /jobs/user-jobs:
+    get:
+      summary: Get jobs created by the current user
+      description: Retrieve a list of jobs created by the currently authenticated user.
+      tags:
+        - Jobs
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Jobs retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      userJobs:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Job"
+        "401":
+          description: Unauthorized (e.g., no token provided)
+        "500":
+          description: Server error
+
+  /jobs/applications:
+    get:
+      summary: Get job applications for the current user
+      description: Retrieve a list of job applications for jobs created by the currently authenticated user.
+      tags:
+        - Jobs
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Job applications retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      applications:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/JobApplication"
+        "401":
+          description: Unauthorized (e.g., no token provided)
+        "500":
+          description: Server error
+
+  /sponsors:
+    get:
+      summary: Get all sponsors
+      description: Retrieve a list of all sponsors.
+      tags:
+        - Sponsors
+      responses:
+        "200":
+          description: Sponsors retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: successful
+                  result:
+                    type: integer
+                    example: 3
+                  sponsors:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Sponsor"
+        "404":
+          description: No sponsors found
+        "500":
+          description: Server error
+
+    post:
+      summary: Create a new sponsor
+      description: Create a new sponsor with a name and logo.
+      tags:
+        - Sponsors
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Tech Sponsor
+                logo:
+                  type: string
+                  format: binary
+      responses:
+        "201":
+          description: Sponsor created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: successful
+                  sponsor:
+                    $ref: "#/components/schemas/Sponsor"
+        "400":
+          description: Bad request (e.g., missing name or logo)
+        "401":
+          description: Unauthorized (e.g., no token provided)
+        "500":
+          description: Server error
+
+  /documents/upload:
+    post:
+      summary: Upload a document
+      description: Upload a document (e.g., resume or cover letter).
+      tags:
+        - Documents
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                document:
+                  type: string
+                  format: binary
+                type:
+                  type: string
+                  example: resume
+      responses:
+        "200":
+          description: Document uploaded successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Document uploaded successfully
+                  data:
+                    type: object
+                    properties:
+                      document:
+                        $ref: "#/components/schemas/Document"
+        "400":
+          description: Bad request (e.g., no file provided)
+        "401":
+          description: Unauthorized (e.g., no token provided)
+        "500":
+          description: Server error
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 64f1b2c7e4b0f5a3d4f5e6a7
+        name:
+          type: string
+          example: John Doe
+        email:
+          type: string
+          example: johndoe@example.com
+        username:
+          type: string
+          example: johndoe
+        profilePicture:
+          type: string
+          example: https://example.com/profile.jpg
+
+    Job:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 64f1b2c7e4b0f5a3d4f5e6a7
+        title:
+          type: string
+          example: Software Engineer
+        description:
+          type: string
+          example: Develop and maintain software applications.
+        salary:
+          type: number
+          example: 80000
+        jobType:
+          type: string
+          example: Full-time
+        requirement:
+          type: array
+          items:
+            type: string
+            example: JavaScript
+        company:
+          type: object
+          properties:
+            name:
+              type: string
+              example: Tech Corp
+            website:
+              type: string
+              example: https://techcorp.com
+            location:
+              type: string
+              example: New York
+        category:
+          type: string
+          example: IT
+        featured:
+          type: boolean
+          example: true
+        remote:
+          type: boolean
+          example: false
+        benefits:
+          type: array
+          items:
+            type: string
+            example: Health Insurance
+        applicationDeadline:
+          type: string
+          format: date
+          example: 2023-12-31
+        createdBy:
+          type: string
+          example: 64f1b2c7e4b0f5a3d4f5e6a7
+
+    JobApplication:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 64f1b2c7e4b0f5a3d4f5e6a7
+        user:
+          type: string
+          example: 64f1b2c7e4b0f5a3d4f5e6a7
+        job:
+          type: string
+          example: 64f1b2c7e4b0f5a3d4f5e6a7
+        coverLetter:
+          type: string
+          example: I am excited to apply for this position.
+        resume:
+          type: string
+          example: https://example.com/resume.pdf
+        additionalDocuments:
+          type: string
+          example: https://example.com/cover_letter.pdf
+
+    Sponsor:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 64f1b2c7e4b0f5a3d4f5e6a7
+        name:
+          type: string
+          example: Tech Sponsor
+        logo:
+          type: string
+          example: https://example.com/logo.png
+
+    Document:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 64f1b2c7e4b0f5a3d4f5e6a7
+        user:
+          type: string
+          example: 64f1b2c7e4b0f5a3d4f5e6a7
+        type:
+          type: string
+          example: resume
+        fileUrl:
+          type: string
+          example: https://example.com/resume.pdf

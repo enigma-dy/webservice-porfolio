@@ -1,0 +1,390 @@
+openapi: 3.0.0
+info:
+  title: MoRent
+  version: 1.0.0
+servers:
+  - url: undefined://{{Morent}}
+paths:
+  # Authentication Endpoints
+  /auth/register:
+    post:
+      tags:
+        - Authentication
+      summary: Register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: john.doe@example.com
+                password: Password123!
+                fullName: John Doe
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: john.doe@example.com
+                password: Password123!
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+
+  /auth/me:
+    get:
+      tags:
+        - Authentication
+      summary: Get User Details
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+
+  # User Management Endpoints
+  /User/confirm-email:
+    get:
+      tags:
+        - User Management
+      summary: Confirm Email
+      parameters:
+        - name: userId
+          in: query
+          schema:
+            type: string
+          example: "{emailConfirmationToken}"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+
+  /user/forgot-password:
+    post:
+      tags:
+        - User Management
+      summary: Forgot Password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: john.doe@example.com
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+
+  /user/reset-password:
+    post:
+      tags:
+        - User Management
+      summary: Reset Password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: enigma@example.com
+                token: <password-reset-token>
+                newPassword: NewPassword123!
+                confirmPassword: NewPassword123!
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+
+  /user/update:
+    put:
+      tags:
+        - User Management
+      summary: User Profile Update
+      requestBody:
+        content: {}
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: multipart/form-data
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+
+  /user/enable-2fa:
+    post:
+      tags:
+        - User Management
+      summary: Enable 2 Factor Authentication
+      requestBody:
+        content: {}
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+
+  /user/generate-2fa-token:
+    post:
+      tags:
+        - User Management
+      summary: Generate 2-FA token
+      requestBody:
+        content: {}
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+
+  /user/verify-authenticator:
+    post:
+      tags:
+        - User Management
+      summary: Verify Authentication Code
+      requestBody:
+        content: {}
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+
+  /user/change-email:
+    post:
+      tags:
+        - User Management
+      summary: Change Email
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                currentEmail: john.doe@example.com
+                newEmail: enigma@gmail.com
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+
+  # Car Management Endpoints
+  /cars/create:
+    post:
+      tags:
+        - Car Management
+      summary: Upload Car
+      requestBody:
+        content: {}
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: multipart/form-data
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+
+  /cars:
+    get:
+      tags:
+        - Car Management
+      summary: Get All Cars
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+
+  /cars/update-availability/1:
+    put:
+      tags:
+        - Car Management
+      summary: Update Car Availability Status (Restock)
+      requestBody:
+        content: {}
+      parameters:
+        - name: additionalQuantity
+          in: query
+          schema:
+            type: string
+          example: "5"
+        - name: additionalForSale
+          in: query
+          schema:
+            type: string
+          example: "3"
+        - name: additionalForRent
+          in: query
+          schema:
+            type: string
+          example: "2"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+
+  /cars/sell/1:
+    post:
+      tags:
+        - Car Management
+      summary: Buy Car
+      requestBody:
+        content: {}
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+
+  # Super Admin Endpoints
+  /SuperAdminAuth/login:
+    post:
+      tags:
+        - Super Admin
+      summary: SuperAdmin Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: superadmin@morent.com
+                password: SuperAdmin@123
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: C
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+
+  /api/role/create-role:
+    post:
+      tags:
+        - Super Admin
+      summary: Create Role
+      description: SuperAdmin can create role and assign permission
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example: Luternate
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+
+  /api/role/verify-dealer/{userId}:
+    post:
+      tags:
+        - Super Admin
+      summary: Verify Dealer
+      description: "SuperAdmin can verify dealer or assign role to a user to be able to verify dealers"
+      requestBody:
+        content: {}
+      parameters:
+        - name: userId
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+
+  # Miscellaneous Endpoints
+  /SponsorAd:
+    post:
+      tags:
+        - Miscellaneous
+      summary: Sponsored Ads
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                title: New Car Ad
+                description: This is a new car ad for a luxury vehicle.
+                images:
+                  - image1.jpg
+                  - image2.jpg
+                price: 500
+                startDate: "2023-10-01T00:00:00"
+                endDate: "2023-10-31T00:00:00"
+                sponsorId: sponsor-123
+                carId: 1
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}

@@ -1,0 +1,238 @@
+openapi: 3.0.0
+info:
+  title: Beat market
+  version: 1.0.0
+servers:
+  - url: https://music-marketplace-backend.onrender.com/api
+paths:
+  /auth/login:
+    post:
+      tags:
+        - General
+      summary: login user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                username: enigma25
+                password: Password123
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /tracks:
+    post:
+      tags:
+        - General
+      summary: Upload Beat
+      requestBody:
+        content: {}
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: multipart/form-data
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    get:
+      tags:
+        - General
+      summary: Get All Tracks
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: multipart/form-data
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /genre:
+    post:
+      tags:
+        - General
+      summary: create genre
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: afro beat
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    get:
+      tags:
+        - General
+      summary: Get All Genres
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /playlist/mybeats:
+    get:
+      tags:
+        - General
+      summary: Get Beat Upload My Beat
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /auth/register:
+    post:
+      tags:
+        - General
+      summary: Register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                username: enigma25
+                email: adediredayo@gmail.com
+                password: Password123
+                passwordConfirm: Password123
+                role: producer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /playlist/:
+    get:
+      tags:
+        - General
+      summary: Get All Playlist List
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - General
+      summary: Create PlayList
+      requestBody:
+        content: {}
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /twerk/request:
+    post:
+      tags:
+        - General
+      summary: Modification Request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                beat: 679fc698fb5ef8a012ae4ff0
+                details: >-
+                  Please adjust the bass levels and add more reverb to the
+                  melody.
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /order/beat:
+    post:
+      tags:
+        - General
+      summary: Order Beat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                beat: 65c1234567abcd890ef12345
+                amount: 49.99
+                license: 65c3456789abcd901ef23456
+                paymentMethod: paypal
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /packs/upload-packs:
+    post:
+      tags:
+        - General
+      summary: upload pack
+      requestBody:
+        content: {}
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /order/pack:
+    post:
+      tags:
+        - General
+      summary: Order Pack
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                buyer: 65c6789012abcd345ef67890
+                pack: 65c1234567abcd890ef12345
+                amount: 45
+                license: 65c3456789abcd901ef23456
+                paymentMethod: paypal
+                transactionId: txn_1234567890abcdef
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /tracks/stream/679ffffbc90c906052c16079:
+    get:
+      tags:
+        - General
+      summary: Stream Beat
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
