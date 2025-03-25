@@ -27,8 +27,8 @@ function App() {
       <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
       <ContentWrapper $isOpen={isOpen}>
         <Routes>
-          <Route path="/" element={<MorentSwagger />} />
-          <Route path="/book" element={<BookSwagger />} />
+          <Route path="/" element={<BookSwagger />} />
+          <Route path="/morent" element={<MorentSwagger />} />
           <Route path="/beat" element={<BeatSwagger />} />
           <Route path="/jobify" element={<JobifySwagger />} />
         </Routes>

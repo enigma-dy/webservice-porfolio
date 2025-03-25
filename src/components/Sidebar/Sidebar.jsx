@@ -96,10 +96,11 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       <MenuItem onClick={() => navigate("/")}>
         {" "}
         <Icon>
-          <FaCar />
+          <MdOutlineWork />
         </Icon>{" "}
-        <Label $isOpen={isOpen}>MoRent</Label>{" "}
+        <Label $isOpen={isOpen}>Jobify</Label>{" "}
       </MenuItem>
+
       <MenuItem onClick={() => navigate("/book")}>
         {" "}
         <Icon>
@@ -114,12 +115,12 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         </Icon>{" "}
         <Label $isOpen={isOpen}>Beatz</Label>{" "}
       </MenuItem>
-      <MenuItem onClick={() => navigate("/jobify")}>
+      <MenuItem onClick={() => navigate("/morent")}>
         {" "}
         <Icon>
-          <MdOutlineWork />
+          <FaCar />
         </Icon>{" "}
-        <Label $isOpen={isOpen}>Jobify</Label>{" "}
+        <Label $isOpen={isOpen}>MoRent</Label>{" "}
       </MenuItem>
     </SidebarContainer>
   );
